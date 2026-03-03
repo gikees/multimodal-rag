@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
+from huggingface_hub import hf_hub_download
 from PIL import Image
 from ultralytics import YOLO
 
@@ -46,12 +47,20 @@ class Region:
 class LayoutDetector:
     """Detect document layout regions using YOLOv8."""
 
+    WEIGHT_FILENAME = "yolov8x-doclaynet-epoch64-imgsz640-initiallr1e-4-finallr1e-5.pt"
+
     def __init__(
         self,
         model_path: str = "DILHTWD/documentlayoutsegmentation_YOLOv8_ondoclaynet",
         conf_threshold: float = 0.25,
         padding: int = 5,
     ):
+        # If model_path looks like a HuggingFace repo ID, download weights first
+        if "/" in model_path and not Path(model_path).exists():
+            model_path = hf_hub_download(
+                repo_id=model_path,
+                filename=self.WEIGHT_FILENAME,
+            )
         self.model = YOLO(model_path)
         self.conf_threshold = conf_threshold
         self.padding = padding
