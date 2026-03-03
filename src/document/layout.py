@@ -97,11 +97,11 @@ class LayoutDetector:
             conf = float(box.conf[0].cpu().item())
             label = DOCLAYNET_LABELS[cls_id] if cls_id < len(DOCLAYNET_LABELS) else "Unknown"
 
-            # Apply padding and clamp to image bounds
-            x1 = max(0, xyxy[0] - self.padding)
-            y1 = max(0, xyxy[1] - self.padding)
-            x2 = min(w, xyxy[2] + self.padding)
-            y2 = min(h, xyxy[3] + self.padding)
+            # Apply padding and clamp to image bounds (convert to native int)
+            x1 = int(max(0, xyxy[0] - self.padding))
+            y1 = int(max(0, xyxy[1] - self.padding))
+            x2 = int(min(w, xyxy[2] + self.padding))
+            y2 = int(min(h, xyxy[3] + self.padding))
 
             cropped = page_image.crop((x1, y1, x2, y2))
             regions.append(Region(
