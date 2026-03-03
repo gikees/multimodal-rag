@@ -3,7 +3,7 @@
 import torch
 import torch.nn.functional as F
 from PIL import Image
-from transformers import AutoModel, AutoProcessor
+from transformers import AutoModel, SiglipProcessor
 
 
 class SigLIPRetriever:
@@ -15,7 +15,7 @@ class SigLIPRetriever:
         device: str | None = None,
     ):
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
-        self.processor = AutoProcessor.from_pretrained(model_name)
+        self.processor = SiglipProcessor.from_pretrained(model_name)
         self.model = AutoModel.from_pretrained(model_name).to(self.device)
         self.model.eval()
 
