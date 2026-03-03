@@ -88,7 +88,7 @@ def process_document(file) -> str:
             "page_index": r.page_index,
             "region_index": r.region_index,
             "label": r.label,
-            "bbox": list(r.bbox),
+            "bbox": [int(x) for x in r.bbox],
             "confidence": r.confidence,
         })
 
@@ -224,4 +224,4 @@ def build_app() -> gr.Blocks:
 if __name__ == "__main__":
     initialize()
     app = build_app()
-    app.launch()
+    app.launch(server_name="0.0.0.0")
