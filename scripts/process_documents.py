@@ -36,7 +36,7 @@ def process_pdf(
             "page_index": region.page_index,
             "region_index": region.region_index,
             "label": region.label,
-            "bbox": list(region.bbox),
+            "bbox": [int(x) for x in region.bbox],
             "confidence": region.confidence,
             "image_path": str(path),
         })

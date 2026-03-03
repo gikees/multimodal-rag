@@ -20,8 +20,8 @@ from datasets import load_dataset
 print('Downloading DocVQA validation split...')
 ds = load_dataset('lmms-lab/DocVQA', 'DocVQA', split='validation', cache_dir='$DATA_DIR/hf_cache')
 print(f'Downloaded {len(ds)} validation samples.')
-ds = load_dataset('lmms-lab/DocVQA', 'DocVQA', split='train', cache_dir='$DATA_DIR/hf_cache')
-print(f'Downloaded {len(ds)} training samples.')
+ds = load_dataset('lmms-lab/DocVQA', 'DocVQA', split='test', cache_dir='$DATA_DIR/hf_cache')
+print(f'Downloaded {len(ds)} test samples.')
 "
 
 echo "=== Done ==="
