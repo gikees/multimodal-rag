@@ -18,9 +18,9 @@ echo "=== Downloading DocVQA ==="
 python3 -c "
 from datasets import load_dataset
 print('Downloading DocVQA validation split...')
-ds = load_dataset('lmms-lab/DocVQA', split='validation', cache_dir='$DATA_DIR/hf_cache')
+ds = load_dataset('lmms-lab/DocVQA', 'DocVQA', split='validation', cache_dir='$DATA_DIR/hf_cache')
 print(f'Downloaded {len(ds)} validation samples.')
-ds = load_dataset('lmms-lab/DocVQA', split='train', cache_dir='$DATA_DIR/hf_cache')
+ds = load_dataset('lmms-lab/DocVQA', 'DocVQA', split='train', cache_dir='$DATA_DIR/hf_cache')
 print(f'Downloaded {len(ds)} training samples.')
 "
 
