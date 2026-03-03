@@ -40,7 +40,8 @@ class SigLIPRetriever:
             inputs = self.processor(images=batch, return_tensors="pt", padding=True)
             inputs = {k: v.to(self.device) for k, v in inputs.items()}
             outputs = self.model.get_image_features(**inputs)
-            all_embeddings.append(outputs.cpu())
+            embeddings_batch = outputs.pooler_output if hasattr(outputs, "pooler_output") else outputs
+            all_embeddings.append(embeddings_batch.cpu())
         embeddings = torch.cat(all_embeddings, dim=0)
         return F.normalize(embeddings, p=2, dim=-1)
 
@@ -65,7 +66,8 @@ class SigLIPRetriever:
             inputs = self.processor(text=batch, return_tensors="pt", padding=True, truncation=True)
             inputs = {k: v.to(self.device) for k, v in inputs.items()}
             outputs = self.model.get_text_features(**inputs)
-            all_embeddings.append(outputs.cpu())
+            embeddings_batch = outputs.pooler_output if hasattr(outputs, "pooler_output") else outputs
+            all_embeddings.append(embeddings_batch.cpu())
         embeddings = torch.cat(all_embeddings, dim=0)
         return F.normalize(embeddings, p=2, dim=-1)
 
