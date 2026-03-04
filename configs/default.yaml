@@ -37,7 +37,7 @@ training:
   seed: 42
 
 generator:
-  model: "gemini-2.0-flash"
+  model: "Qwen/Qwen3-VL-8B-Instruct"
   max_tokens: 1024
   temperature: 0.2
 

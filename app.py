@@ -170,7 +170,7 @@ def query_document(question: str, top_k: int = 3) -> tuple[str, Image.Image | No
             generated = generator.generate(question, region_img)
             answer += f"Answer: {generated}"
         else:
-            answer += "(Gemini not configured — set GOOGLE_API_KEY to enable answer generation)"
+            answer += "(Generator not available)"
     except Exception as e:
         answer += f"(Generation failed: {e})"
 
@@ -181,14 +181,11 @@ def _init_generator():
     """Lazily initialize the generator."""
     global generator
     try:
-        import google.generativeai as genai
-        import os
-        if os.environ.get("GOOGLE_API_KEY"):
-            genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
-            from src.generator.mllm import GeminiGenerator
-            generator = GeminiGenerator(model_name=cfg.generator.model)
-    except Exception:
-        pass
+        from src.generator.local_vl import LocalVLGenerator
+        generator = LocalVLGenerator(model_name=cfg.generator.model)
+    except Exception as e:
+        print(f"Warning: Could not load local VL generator: {e}")
+        generator = None
 
 
 def build_app() -> gr.Blocks:
