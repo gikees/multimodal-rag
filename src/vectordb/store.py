@@ -88,14 +88,14 @@ class VectorStore:
         if isinstance(query_vector, np.ndarray):
             query_vector = query_vector.tolist()
 
-        results = self.client.search(
+        results = self.client.query_points(
             collection_name=self.collection_name,
-            query_vector=query_vector,
+            query=query_vector,
             limit=top_k,
         )
         return [
             {"id": hit.id, "score": hit.score, **hit.payload}
-            for hit in results
+            for hit in results.points
         ]
 
     def count(self) -> int:
